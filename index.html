@@ -1,0 +1,361 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#071d35">
+  <title>NotebookLM — اتعلّم واشتغل من مصادرك | Smarter With AI</title>
+  <style>
+    :root{
+      --navy:#071d35;--navy-2:#0d2d4d;--green:#00a86b;--green-dark:#087a56;
+      --mint:#dff8ee;--cream:#fbfaf5;--paper:#fffefa;--ink:#102335;--muted:#546878;
+      --gold:#f4b942;--line:#dce7e2;--shadow:0 24px 65px rgba(7,29,53,.13);
+    }
+    *{box-sizing:border-box}
+    html{scroll-behavior:smooth}
+    body{margin:0;background:#eaf0ed;color:var(--ink);font-family:Tahoma,"Segoe UI",Arial,sans-serif;line-height:1.95}
+    button,a{font:inherit}a{color:inherit}
+    .progress{position:fixed;inset:0 0 auto;z-index:50;height:5px;background:rgba(7,29,53,.08)}
+    .progress span{display:block;width:0;height:100%;background:linear-gradient(90deg,var(--green),var(--gold));transition:width .15s}
+    .tools{position:fixed;left:18px;bottom:18px;z-index:40;display:flex;gap:8px}
+    .tool{width:46px;height:46px;border:0;border-radius:50%;display:grid;place-items:center;cursor:pointer;color:white;background:var(--navy);box-shadow:0 10px 30px rgba(7,29,53,.22)}
+    .tool:hover{transform:translateY(-2px);background:var(--green-dark)}
+    .book{width:min(100%,1120px);margin:0 auto;padding:34px 20px 80px}
+    .page{position:relative;min-height:760px;margin:24px auto;padding:70px 76px 66px;background:var(--paper);border:2px solid var(--navy);border-radius:6px;box-shadow:var(--shadow);overflow:hidden;isolation:isolate}
+    .page:before,.page:after{content:"";position:absolute;width:70px;height:70px;z-index:-1}
+    .page:before{inset:16px 16px auto auto;border-top:7px solid var(--green);border-right:7px solid var(--green)}
+    .page:after{inset:auto auto 16px 16px;border-bottom:7px solid var(--green);border-left:7px solid var(--green)}
+    .page-no{position:absolute;left:34px;bottom:24px;font-size:12px;font-weight:800;color:var(--muted)}
+    .brand-mini{position:absolute;right:34px;bottom:23px;font-size:12px;font-weight:900;color:var(--navy);letter-spacing:.3px}
+    .cover{min-height:820px;display:flex;flex-direction:column;justify-content:center;color:white;background:
+      radial-gradient(circle at 18% 18%,rgba(0,168,107,.28),transparent 30%),
+      radial-gradient(circle at 82% 75%,rgba(244,185,66,.16),transparent 28%),
+      linear-gradient(145deg,#06182d,#0b2b4a 65%,#073e3c);border-color:var(--navy)}
+    .cover:before,.cover:after{border-color:var(--green)}.cover .page-no,.cover .brand-mini{color:#d9f4eb}
+    .logo{width:96px;height:96px;border:2px solid rgba(255,255,255,.24);border-radius:28px;display:grid;place-items:center;margin-bottom:42px;background:rgba(255,255,255,.07);backdrop-filter:blur(8px)}
+    .logo b{font-size:28px;color:#fff}.logo i{font-style:normal;color:var(--green)}
+    .eyebrow{display:inline-flex;align-items:center;gap:10px;width:max-content;padding:8px 14px;border-radius:999px;background:var(--mint);color:var(--green-dark);font-size:13px;font-weight:900;margin-bottom:20px}
+    .cover .eyebrow{background:rgba(223,248,238,.12);color:#bff7df;border:1px solid rgba(223,248,238,.18)}
+    h1,h2,h3,p{margin-top:0}
+    h1{max-width:850px;font-size:clamp(43px,7vw,76px);line-height:1.15;margin-bottom:22px;letter-spacing:-1.7px}
+    h1 span{color:#75e6b8}.cover-lead{max-width:760px;font-size:clamp(18px,2.4vw,25px);line-height:1.8;color:#e9f2f4;margin-bottom:34px}
+    .meta{display:flex;gap:12px;flex-wrap:wrap}.meta span{padding:9px 15px;border:1px solid rgba(255,255,255,.19);border-radius:12px;color:#dfecef;background:rgba(255,255,255,.06);font-size:13px;font-weight:800}
+    h2{font-size:clamp(30px,4.2vw,48px);line-height:1.3;color:var(--navy);margin-bottom:20px;letter-spacing:-.6px}
+    h3{font-size:22px;line-height:1.45;color:var(--navy);margin-bottom:9px}
+    .lead{font-size:20px;line-height:1.95;color:#294257;max-width:900px}
+    .story p{font-size:17px;margin-bottom:17px;color:#223a4d}
+    mark{color:var(--navy);background:linear-gradient(transparent 20%,#c9f4e4 20% 90%,transparent 90%);padding:0 .12em;font-weight:900}
+    .quote{margin:26px 0;padding:25px 28px;border-radius:18px;background:var(--navy);color:white;font-size:21px;font-weight:900;line-height:1.8}
+    .quote em{display:block;color:#8ee9c5;font-style:normal;font-size:13px;margin-bottom:5px}
+    .soft{padding:22px 24px;border-radius:18px;background:var(--mint);border:1px solid #bcebd8}.soft p:last-child{margin-bottom:0}
+    .grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px;margin-top:25px}
+    .grid.three{grid-template-columns:repeat(3,minmax(0,1fr))}
+    .card{padding:21px;border:1px solid var(--line);border-radius:18px;background:#fff;box-shadow:0 8px 25px rgba(7,29,53,.055)}
+    .card .num{width:38px;height:38px;border-radius:12px;display:grid;place-items:center;background:var(--navy);color:#fff;font-weight:900;margin-bottom:13px}
+    .card p{font-size:15px;line-height:1.8;color:var(--muted);margin:0}
+    .contents{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;margin-top:28px}
+    .contents a{text-decoration:none;padding:15px 17px;border:1px solid var(--line);border-radius:14px;background:#fff;font-weight:800;color:var(--navy);transition:.2s}
+    .contents a:hover{border-color:var(--green);transform:translateY(-2px);box-shadow:0 8px 22px rgba(0,168,107,.10)}
+    .contents b{display:inline-grid;place-items:center;width:28px;height:28px;border-radius:9px;background:var(--mint);color:var(--green-dark);margin-left:8px}
+    .steps{margin:22px 0 0;padding:0;list-style:none;counter-reset:step}
+    .steps li{position:relative;margin-bottom:14px;padding:14px 62px 14px 18px;border-radius:14px;background:#f4f8f6;color:#294257}
+    .steps li:before{counter-increment:step;content:counter(step);position:absolute;right:14px;top:13px;width:34px;height:34px;border-radius:10px;display:grid;place-items:center;background:var(--green);color:#fff;font-weight:900}
+    .bigword{font-size:clamp(58px,11vw,126px);line-height:1;color:#d8eee5;font-weight:900;position:absolute;left:45px;top:42px;z-index:-1;letter-spacing:-5px}
+    .flow{display:flex;gap:8px;align-items:stretch;margin:26px 0;direction:rtl}
+    .flow div{flex:1;padding:17px 10px;text-align:center;border-radius:14px;background:#f3f8f5;border:1px solid var(--line);font-weight:900;color:var(--navy)}
+    .flow i{align-self:center;color:var(--green);font-style:normal;font-weight:900}
+    .modes{display:flex;gap:10px;flex-wrap:wrap;margin:18px 0}
+    .mode{padding:9px 13px;border-radius:999px;background:var(--navy);color:white;font-size:13px;font-weight:900}
+    .mode.green{background:var(--green-dark)}.mode.gold{background:#9a6710}
+    .checklist{display:grid;gap:12px;margin-top:22px}
+    .check{padding:15px 17px;border:1px solid var(--line);border-radius:14px;background:#fff}
+    .check:before{content:"✓";display:inline-grid;place-items:center;width:26px;height:26px;margin-left:10px;border-radius:50%;background:var(--green);color:#fff;font-weight:900}
+    .closing{display:flex;flex-direction:column;justify-content:center;background:linear-gradient(160deg,#f9fffc,#eef9f4)}
+    .closing h2{font-size:clamp(42px,6vw,68px)}.signature{margin-top:35px;font-size:15px;font-weight:900;color:var(--green-dark)}
+    @media(max-width:720px){
+      .book{padding:12px 8px 70px}.page{min-height:auto;margin:12px auto;padding:52px 28px 62px;border-width:1.5px;border-radius:4px}
+      .cover{min-height:760px;padding:60px 30px}.logo{width:78px;height:78px;margin-bottom:30px}
+      .grid,.grid.three,.contents{grid-template-columns:1fr}.tools{left:10px;bottom:10px}.tool{width:42px;height:42px}
+      .brand-mini{right:24px}.page-no{left:24px}.bigword{font-size:64px;left:22px;top:38px}
+      .lead{font-size:18px}.story p{font-size:16px}.quote{font-size:18px;padding:20px}.flow{display:grid;grid-template-columns:1fr}.flow i{transform:rotate(90deg)}
+    }
+    @media print{
+      @page{size:A4;margin:0}body{background:white}.book{width:100%;padding:0}.tools,.progress{display:none}
+      .page{width:210mm;height:297mm;min-height:297mm;margin:0;padding:19mm 18mm 18mm;border-radius:0;box-shadow:none;break-after:page;page-break-after:always}
+      .cover{min-height:297mm}.page:last-child{break-after:auto;page-break-after:auto}
+    }
+  </style>
+</head>
+<body>
+  <div class="progress"><span id="bar"></span></div>
+  <div class="tools" aria-label="أدوات الكتيب">
+    <button class="tool" onclick="window.print()" title="طباعة أو حفظ PDF" aria-label="طباعة">⤓</button>
+    <button class="tool" onclick="document.getElementById('contents').scrollIntoView()" title="الفهرس" aria-label="الفهرس">☷</button>
+  </div>
+  <main class="book">
+    <section class="page cover" id="cover">
+      <div class="logo"><b>S<i>AI</i></b></div>
+      <span class="eyebrow">المحاضرة الثانية • الجزء الثاني</span>
+      <h1>NotebookLM<br><span>اتعلّم واشتغل من مصادرك</span></h1>
+      <p class="cover-lead">حوّل الكتب، المحاضرات، الفيديوهات والملفات من معلومات ساكنة إلى مساحة تفهمها، تسأل منها، وتحوّلها لأشكال تساعدك تتعلم وتنجز.</p>
+      <div class="meta"><span>Smarter With AI</span><span>الأسبوع الأول</span><span>كتيب تفاعلي</span></div>
+      <span class="brand-mini">Smarter With AI</span><span class="page-no">01</span>
+    </section>
+
+    <section class="page" id="contents">
+      <span class="eyebrow">خريطة الكتيب</span>
+      <h2>من المصدر… إلى تجربة تعلم كاملة</h2>
+      <p class="lead">هنبدأ بإنشاء المساحة، نفهم إزاي الإجابات ترتبط بالمصادر، وبعدها ندخل الـStudio ونحوّل نفس المعرفة لصوت وفيديو ومراجعة واختبارات.</p>
+      <nav class="contents">
+        <a href="#idea"><b>1</b>NotebookLM بيحل إيه؟</a>
+        <a href="#create"><b>2</b>إنشاء المساحة وإضافة المصادر</a>
+        <a href="#chat"><b>3</b>السؤال والإجابة بالـCitations</a>
+        <a href="#organize"><b>4</b>Labels وCollections</a>
+        <a href="#learn"><b>5</b>Learning Guide والتخصيص</a>
+        <a href="#uses"><b>6</b>الدراسة والشغل والبيت</a>
+        <a href="#studio"><b>7</b>فكرة الـStudio</a>
+        <a href="#audio"><b>8</b>Audio Overviews</a>
+        <a href="#video"><b>9</b>Video Overviews</a>
+        <a href="#mindmap"><b>10</b>Mind Maps</a>
+        <a href="#flashcards"><b>11</b>Flashcards</a>
+        <a href="#quiz"><b>12</b>Quizzes وReports</a>
+        <a href="#share"><b>13</b>المشاركة والنسخ</a>
+        <a href="#task"><b>14</b>تاسك المحاضرة</a>
+      </nav>
+      <span class="brand-mini">Smarter With AI</span><span class="page-no">02</span>
+    </section>
+
+    <section class="page" id="idea">
+      <span class="bigword">01</span><span class="eyebrow">الفكرة</span>
+      <h2>مش محتاج إجابة من الإنترنت كله</h2>
+      <div class="story">
+        <p>أحيانًا أنت لا تريد رأيًا عامًا من نموذج لغوي. أنت عندك كتاب محدد، محاضرات مدرسك، ملفات الشغل أو أبحاث اخترتها بنفسك، وتريد إجابة مبنية على <mark>هذه المصادر بالذات</mark>.</p>
+        <p>هنا NotebookLM مختلف: أنت تبني Notebook لموضوع واحد، تضع داخله المصادر، ثم تتعامل مع المعرفة دي كأنها مساحة حية. تسأل، ترجع للمكان الذي جاءت منه الإجابة، وتحوّل نفس المصادر إلى مواد أخرى تناسب طريقتك في التعلم أو الشغل.</p>
+        <p>لو أخذت كورسًا مدته 30 ساعة ثم احتجت بعد سنة تعرف أين شُرح «البحث العميق»، بدل ما تفتح كل التسجيلات، تسأل النوت بوك. هيحدد لك المعلومة والسياق والمصدر الذي ظهرت فيه.</p>
+      </div>
+      <div class="quote"><em>الفرق الأساسي</em>النموذج العام يعرف أشياء كثيرة. الـNotebook تعرف الأشياء التي اخترت أنت أن تعيش داخلها.</div>
+      <span class="brand-mini">Smarter With AI</span><span class="page-no">03</span>
+    </section>
+
+    <section class="page" id="create">
+      <span class="bigword">02</span><span class="eyebrow">Create New</span>
+      <h2>ابدأ بمساحة لها هدف واضح</h2>
+      <div class="story">
+        <p>أول قرار مش «أرفع كام ملف؟»؛ أول قرار هو «المساحة دي عن إيه؟». اعمل Notebook لكورس التسويق، وأخرى لزراعة الأسنان، وثالثة لتسجيلات شغل معين. لما الهدف يبقى واضح، اختيار المصادر والأسئلة والمخرجات يبقى أسهل.</p>
+      </div>
+      <div class="grid three">
+        <article class="card"><div class="num">F</div><h3>Files</h3><p>PDF، مستندات، عروض، ملفات نصية وصور تحتوي على ملاحظات أو محتوى تريد الرجوع له.</p></article>
+        <article class="card"><div class="num">▶</div><h3>Links & Video</h3><p>مقالات وصفحات وروابط YouTube؛ مفيدة لتحويل فيديو طويل إلى معرفة قابلة للسؤال والمراجعة.</p></article>
+        <article class="card"><div class="num">♫</div><h3>Audio</h3><p>تسجيل محاضرة أو اجتماع؛ تحصل على تفريغ وتستخرج منه القرارات والخطوات المطلوبة.</p></article>
+      </div>
+      <ol class="steps">
+        <li>اضغط <strong>Create New</strong> وسمّ المساحة باسم الموضوع أو النتيجة.</li>
+        <li>اختر <strong>Add Sources</strong> وارفع من جهازك أو Drive أو الويب حسب المتاح.</li>
+        <li>ابدأ بمصادر قليلة ومباشرة، ثم وسّع المساحة عندما تعرف ما الذي تحتاجه فعلًا.</li>
+      </ol>
+      <span class="brand-mini">Smarter With AI</span><span class="page-no">04</span>
+    </section>
+
+    <section class="page" id="chat">
+      <span class="bigword">03</span><span class="eyebrow">Chat + Citations</span>
+      <h2>كل إجابة لها طريق رجوع</h2>
+      <div class="story">
+        <p>بعد إضافة المصادر، تقدر تسأل سؤالًا عاديًا. لكن القيمة هنا إن الإجابة لا تأتي وحدها؛ تظهر معها <mark>Citations</mark> ترجعك للجزء الذي اعتمد عليه NotebookLM.</p>
+        <p>لو عندك مصادر كثيرة، مش لازم تسألهم كلهم في كل مرة. حدد مصدرًا واحدًا أو مجموعة معينة قبل السؤال. مثلًا: اسأل فقط من تسجيل المحاضرة الأولى ومرفقاتها، بدل ما تدخل باقي الكورس في الإجابة.</p>
+        <p>وده مهم جدًا في التعلم: لو الشرح لم يقنعك، لا تكتفي بالإجابة. افتح الـCitation، اقرأ السياق الأصلي، ثم ارجع اسأل بصياغة أوضح. أنت لا تستبدل المصدر؛ أنت تختصر طريق الوصول له.</p>
+      </div>
+      <div class="flow"><div>اختر المصادر</div><i>←</i><div>اسأل</div><i>←</i><div>راجع الـCitation</div><i>←</i><div>كمّل السؤال</div></div>
+      <div class="soft"><p><strong>مثال:</strong> «في أي محاضرة اتشرح البحث العميق؟ لخّص الجزء، ثم اذكر لي المصدر والمكان الذي أرجع له للمراجعة.»</p></div>
+      <span class="brand-mini">Smarter With AI</span><span class="page-no">05</span>
+    </section>
+
+    <section class="page" id="organize">
+      <span class="bigword">04</span><span class="eyebrow">Labels & Collections</span>
+      <h2>لما المصادر والنوت بوكس يبدأوا يكبروا</h2>
+      <div class="story">
+        <p>داخل Notebook واحدة، ممكن يكون عندك تسجيل المحاضرة الأولى، ملف الشرح، ومقال مطلوب قراءته. بدل ما تختار الثلاثة يدويًا كل مرة، اجمعهم تحت <mark>Label</mark> باسم «المحاضرة الأولى». بعدها تختار الـLabel مرة واحدة في الشات أو الـStudio.</p>
+        <p>أما الـ<mark>Collections</mark> فتنظم النوت بوكس نفسها. لو عندك أكثر من Notebook عن كتابة المحتوى والتسويق، تجمعهم في Collection واحدة كأنها فولدر كبير. ونفس النوت بوك ممكن تظهر في أكثر من Collection لو تخدم أكثر من مجال.</p>
+      </div>
+      <div class="grid">
+        <article class="card"><div class="num">L</div><h3>Label</h3><p>يجمع مصادر مرتبطة داخل Notebook واحدة: أسبوع، محاضرة، فصل أو نوع مرجع.</p></article>
+        <article class="card"><div class="num">C</div><h3>Collection</h3><p>يجمع عدة Notebooks مرتبطة: كورسات المحتوى، دفعات الدبلومة أو مشروعات عميل واحد.</p></article>
+      </div>
+      <div class="quote"><em>القاعدة</em>نظّم عندما يصبح الوصول صعبًا، لا لمجرد صناعة تقسيمات شكلها جميل.</div>
+      <span class="brand-mini">Smarter With AI</span><span class="page-no">06</span>
+    </section>
+
+    <section class="page" id="learn">
+      <span class="bigword">05</span><span class="eyebrow">Configure Notebook</span>
+      <h2>خلي المساحة تشرح بالطريقة اللي تناسبك</h2>
+      <div class="story">
+        <p>الجواب الصح مش كفاية لو طريقة عرضه لا تناسبك. من إعدادات النوت بوك تقدر تتحكم في طول الإجابة، وتضيف <mark>Custom Instructions</mark> تحدد فيها الدور واللغة ومستوى التبسيط.</p>
+        <p>مدرسة الإنجليزي مثلًا تقدر تكتب: «تعامل مع من يسألك كطالب مبتدئ، اشرح بمزيج بسيط من المصري والإنجليزي، واضرب مثالًا قبل الانتقال للنقطة التالية.»</p>
+        <p>أما <mark>Learning Guide</mark> فيحوّل التجربة من رد طويل إلى تعلم متدرج: يشرح نقطة، يتأكد إنك فهمتها، ويسألك هل تريد مثالًا، اختبارًا صغيرًا أو الانتقال للجزء التالي. كأنك تتعامل مع مدرس خصوصي، مش صفحة نتائج.</p>
+      </div>
+      <div class="soft"><h3>تعليمة جاهزة</h3><p>«اشرح لي فكرة واحدة كل مرة. بعد كل فكرة اسألني: تحب مثالًا، سؤالًا للتأكد، ولا ننتقل للنقطة التالية؟ لا تعطيني درسًا طويلًا دفعة واحدة.»</p></div>
+      <span class="brand-mini">Smarter With AI</span><span class="page-no">07</span>
+    </section>
+
+    <section class="page" id="uses">
+      <span class="bigword">06</span><span class="eyebrow">استخدامات حقيقية</span>
+      <h2>المساحة مش للدراسة وبس</h2>
+      <div class="grid">
+        <article class="card"><div class="num">ت</div><h3>للتعلم</h3><p>ضع تسجيلات الكورس وملفاته، ارجع لأي معلومة ضاعت، واطلب شرحًا أو مراجعة مبنية على نفس مدرسك ومصادرك.</p></article>
+        <article class="card"><div class="num">ش</div><h3>للشغل</h3><p>سجّل الاجتماعات، ارفع التسجيل، واستخرج القرارات والـAction Items بدل محاولة كتابة كل كلمة أثناء الاجتماع.</p></article>
+        <article class="card"><div class="num">م</div><h3>للملاحظات</h3><p>اجمع صور النوتس والمذكرات في مساحة واحدة، ثم ابحث واسأل بدل ما تظل المعلومة محبوسة داخل الصور.</p></article>
+        <article class="card"><div class="num">ب</div><h3>للبيت</h3><p>ضع كتالوجات الأجهزة أو الملفات المهمة، واسأل لاحقًا عن رقم أو خطوة بدل البحث داخل كل PDF.</p></article>
+      </div>
+      <div class="quote"><em>مثال من المحاضرة</em>Notebook للعمل فيها عشرات المصادر وتسجيلات الاجتماعات تصبح ذاكرة عملية: ماذا طُلب؟ من المسؤول؟ وما الخطوة التالية؟</div>
+      <span class="brand-mini">Smarter With AI</span><span class="page-no">08</span>
+    </section>
+
+    <section class="page" id="studio">
+      <span class="bigword">07</span><span class="eyebrow">Studio</span>
+      <h2>المصدر الواحد… مش لازم يفضل في شكل واحد</h2>
+      <div class="story">
+        <p>هنا تبدأ القوة التوليدية لـNotebookLM. نفس المحاضرة التي رفعتها كمقطع صوتي ممكن تتحول إلى بودكاست، فيديو، Mind Map، Flashcards، Quiz أو Report.</p>
+        <p>وأغلب أدوات الـStudio تقدر تشغلها بطريقتين: تضغط مباشرة فتحصل على نتيجة عامة، أو تفتح خيارات التخصيص وتحدد <mark>المصادر، اللغة، الشكل، الطول، الجمهور والتعليمات</mark>.</p>
+      </div>
+      <div class="flow"><div>مصادر أصلية</div><i>←</i><div>اختيار وتخصيص</div><i>←</i><div>Studio</div><i>←</i><div>مخرج جديد</div></div>
+      <div class="grid three">
+        <article class="card"><h3>اسمع</h3><p>Audio Overview بصيغة قصيرة أو نقاش مفصل.</p></article>
+        <article class="card"><h3>شاهد</h3><p>Explainer أو Short مبني على نفس المصادر.</p></article>
+        <article class="card"><h3>تفاعل</h3><p>خريطة، كروت مراجعة أو اختبار قابل للتعديل.</p></article>
+      </div>
+      <span class="brand-mini">Smarter With AI</span><span class="page-no">09</span>
+    </section>
+
+    <section class="page" id="audio">
+      <span class="bigword">08</span><span class="eyebrow">Audio Overview</span>
+      <h2>حوّل القراءة إلى حاجة تقدر تسمعها</h2>
+      <div class="story">
+        <p>معاك ورقة علمية ومش فاضي تقرأها؟ أو فيديو طويل وعايز تعرف يستحق وقتك؟ ارفع المصدر، واختر Audio Overview، وحدد هل تريد خلاصة سريعة أم نقاشًا أعمق.</p>
+      </div>
+      <div class="modes"><span class="mode">Deep Dive</span><span class="mode green">Brief</span><span class="mode gold">Critique</span><span class="mode">Debate</span></div>
+      <div class="grid">
+        <article class="card"><h3>Deep Dive</h3><p>مناقشة مفصلة بين متحدثين تغطي الموضوع بعمق.</p></article>
+        <article class="card"><h3>Brief</h3><p>الخلاصة في دقيقة أو دقيقتين قبل أن تقرر تكمل المصدر الأصلي.</p></article>
+        <article class="card"><h3>Critique</h3><p>طرح للفكرة مع نقد وتحليل لنقاط القوة والضعف.</p></article>
+        <article class="card"><h3>Debate</h3><p>عرض الموضوع من وجهتي نظر مختلفتين بدل تفسير واحد.</p></article>
+      </div>
+      <div class="soft" style="margin-top:22px"><p>تقدر تختار اللغة، المصادر، وتضيف توجيهًا مثل: «اعمل ملخصًا بالمصري يركز على الخطوات التي أطبقها فورًا». ومن التطبيق تقدر تسمع في الخلفية وتغيّر السرعة أو تحمل الملف حسب المتاح.</p></div>
+      <span class="brand-mini">Smarter With AI</span><span class="page-no">10</span>
+    </section>
+
+    <section class="page" id="video">
+      <span class="bigword">09</span><span class="eyebrow">Video Overview</span>
+      <h2>نفس المعرفة… لكن في فيديو</h2>
+      <div class="story">
+        <p>الـ<mark>Explainer</mark> يحول المصادر إلى عرض شرائح بصري مع صوت يشرح وينتقل بين الأفكار. تختار الشكل المرئي، اللغة، طريقة الإلقاء، والجمهور؛ فتقدر تطلب أسلوبًا أبسط لطفل أو صياغة أكثر جدية لمتخصصين.</p>
+        <p>أما الـ<mark>Short</mark> فيضغط فكرة محددة في فيديو قصير قريب من فيديوهات YouTube Shorts. مفيد عندما تريد أخذ Topic واحد من مصادر كبيرة وتقديمه في دقيقة.</p>
+        <p>تقدر كذلك تكتب جملة افتتاحية أو ختامية، اسم المقدم أو CTA واضح. مثلًا: «ابدأ بـ: معاكم محمود من Smarter With AI، واختم بتذكير الطالب إنه يطبق التاسك.»</p>
+      </div>
+      <div class="grid">
+        <article class="card"><div class="num">▶</div><h3>Explainer</h3><p>Slides + Voice لتعليم موضوع أو تلخيص مادة طويلة بشكل متسلسل.</p></article>
+        <article class="card"><div class="num">▮</div><h3>Short</h3><p>فيديو عمودي سريع يركز على فكرة واحدة قابلة للمشاركة.</p></article>
+      </div>
+      <span class="brand-mini">Smarter With AI</span><span class="page-no">11</span>
+    </section>
+
+    <section class="page" id="mindmap">
+      <span class="bigword">10</span><span class="eyebrow">Mind Map</span>
+      <h2>شوف الصورة الكبيرة… وبعدها انزل للتفاصيل</h2>
+      <div class="story">
+        <p>بعض المصادر لا تحتاج ملخصًا خطيًا؛ تحتاج خريطة توضح علاقة الأجزاء ببعض. الـMind Map تبني الموضوع على شكل فروع، وكل فرع يفتح لك مستويات أعمق.</p>
+        <p>لو رفعت كتابًا، ممكن تبدأ بالأبواب الرئيسية، ثم تفتح فصلًا، ثم مفهومًا داخله. ولو فتحت نقطة لم تفهمها، ترجع للشات وتسأل عنها من نفس المصادر بدل ما تضيع بين الصفحات.</p>
+      </div>
+      <div class="flow"><div>الموضوع</div><i>←</i><div>الأقسام</div><i>←</i><div>الأفكار</div><i>←</i><div>التفاصيل</div></div>
+      <div class="quote"><em>متى تستخدمها؟</em>قبل دراسة مصدر كبير عشان تعرف خريطته، أو بعد المذاكرة عشان تراجع العلاقات بين الأفكار.</div>
+      <span class="brand-mini">Smarter With AI</span><span class="page-no">12</span>
+    </section>
+
+    <section class="page" id="flashcards">
+      <span class="bigword">11</span><span class="eyebrow">Flashcards</span>
+      <h2>بدل ما تقرأ المعلومة… حاول تسترجعها</h2>
+      <div class="story">
+        <p>الكارت له وجه فيه سؤال، وظهر فيه الإجابة. تقرأ السؤال، تحاول تسترجع من ذاكرتك، ثم تقلب الكارت وتقيّم نفسك. دي طريقة تعلم نشط، مفيدة للغات والمصطلحات والمعلومات التي تحتاج تثبيتها.</p>
+        <p>من الإعدادات تحدد عدد الكروت، مستوى الصعوبة والمصادر. ولو نقطة وقفت معاك، اضغط <mark>Explain</mark> فيشرحها لك من المادة الأصلية. وتقدر تعدّل الكروت، تضيف أو تمسح بدل ما تعتبر الناتج النهائي مقدسًا.</p>
+      </div>
+      <div class="grid">
+        <article class="card"><h3>لطالب</h3><p>راجع مفاهيم المحاضرة واكتشف بنفسك الأجزاء التي لا تستطيع استرجاعها.</p></article>
+        <article class="card"><h3>لمدرس</h3><p>حوّل تسجيل الدرس إلى كروت، راجع الصياغة، ثم شاركها مع الطلبة.</p></article>
+      </div>
+      <div class="soft" style="margin-top:22px"><p><strong>المهم:</strong> جودة الـFlashcards مرتبطة بجودة المصادر واختيارك للنطاق. لا تطلب كروتًا من Notebook مزدحمة من غير تحديد الدرس أو الـLabel المقصود.</p></div>
+      <span class="brand-mini">Smarter With AI</span><span class="page-no">13</span>
+    </section>
+
+    <section class="page" id="quiz">
+      <span class="bigword">12</span><span class="eyebrow">Quiz & Reports</span>
+      <h2>اختبر، افهم الخطأ، وعدّل الاختبار</h2>
+      <div class="story">
+        <p>في الـQuiz تختار عدد الأسئلة، مستوى الصعوبة والمصادر. بعد الإجابة لا تعرف فقط صح أو غلط؛ تشوف لماذا الاختيار صحيح ولماذا باقي الاختيارات غير مناسبة، وتقدر تطلب <mark>Explain</mark> لو التفسير يحتاج توضيحًا أعمق.</p>
+        <p>والمدرس لا يضطر يقبل الأسئلة كما هي. يقدر يغيّر الصياغة، يضيف سؤالًا، يعدّل الإجابات والـHints، ثم يشارك النسخة التي راجعها مع الطلبة.</p>
+        <p>أما الـReports فتحوّل المصادر إلى تقرير أو Blog Post أو شكل يختاره NotebookLM بناءً على طبيعة المحتوى. ويمكنك إنشاء Report مخصص بتعليماتك ولغتك.</p>
+      </div>
+      <div class="quote"><em>من تسجيل واحد</em>تفريغ مكتوب، Flashcards، Quiz، شرح للأخطاء، وتقرير — وكلها راجعة لنفس المصدر.</div>
+      <span class="brand-mini">Smarter With AI</span><span class="page-no">14</span>
+    </section>
+
+    <section class="page" id="share">
+      <span class="bigword">13</span><span class="eyebrow">Share</span>
+      <h2>شارك التجربة… مش مجرد لينك</h2>
+      <div class="story">
+        <p>تقدر تشارك النوت بوك كلها، أو Artifact واحدًا مثل Flashcards أو Quiz. قبل نسخ الرابط، راجع صلاحية الوصول: لو تركتها <mark>Restricted</mark> لن يفتح مع زميلك حتى لو معه الرابط.</p>
+        <p>لو المشاركة تسمح بالمشاهدة فقط، الشخص الآخر يقدر يسأل من المصادر ويشاهد مخرجات الـStudio الموجودة، لكنه لا يعدّل مصادرك. ولو فعّلت <mark>Allow Copies</mark> يقدر يأخذ نسخة مستقلة ويطوّرها عنده؛ التعديلات لن ترجع لنسختك.</p>
+        <p>تخيل فصلًا كاملًا: طالب يبني Notebook للفيزياء، وآخر للكيمياء، وثالث للغة. كل واحد يشارك مساحة راجع مصادرها، والباقي يبدأ من حيث انتهى زميله بدل تكرار نفس العمل.</p>
+      </div>
+      <div class="checklist">
+        <div class="check">اختار Anyone with the link أو Public حسب هدفك.</div>
+        <div class="check">فعّل النسخ فقط لو تريد للآخرين بناء نسخة خاصة بهم.</div>
+        <div class="check">جرّب الرابط في نافذة خاصة قبل إرساله.</div>
+      </div>
+      <span class="brand-mini">Smarter With AI</span><span class="page-no">15</span>
+    </section>
+
+    <section class="page" id="limits">
+      <span class="bigword">14</span><span class="eyebrow">استخدم الأداة الصح</span>
+      <h2>مصادرك أولًا… لكن مش في كل موقف</h2>
+      <div class="story">
+        <p>NotebookLM ممتاز عندما تريد أن «تعيش داخل مصادرك»: تتعلم كورسًا، تفهم أوراقًا بحثية، تسترجع قرارًا من اجتماعات الشغل، أو تبني تجربة مراجعة من مادة محددة.</p>
+        <p>لكن لو تريد أفكارًا إبداعية خارج المصادر أو استكشاف اتجاهات لا توجد في ملفاتك، استخدم نموذجًا عامًا ثم ارجع للمصادر للتحقق أو التخصيص. ما فيش أداة واحدة مناسبة لكل حاجة.</p>
+        <p>وتكامل النوت بوكس مع Gemini يسهّل الوصول إليها من داخل تجربتك العامة، لكن لو المساحة ضخمة جدًا، خليك واعيًا أن السؤال الواسع قد لا يعتمد بنفس القوة على كل مصدر. حدد المصدر أو الـLabel المقصود كلما أمكن.</p>
+      </div>
+      <div class="quote"><em>المعيار</em>لو الإجابة يجب أن تكون من “ملفاتي أنا”، ابدأ بـNotebookLM. لو المطلوب تفكير أوسع من الملفات، ابدأ بالنموذج العام.</div>
+      <span class="brand-mini">Smarter With AI</span><span class="page-no">16</span>
+    </section>
+
+    <section class="page" id="task">
+      <span class="bigword">15</span><span class="eyebrow">تاسك المحاضرة</span>
+      <h2>اعمل Notebook لحاجة حقيقية</h2>
+      <p class="lead">اختار موضوعًا يخص دراستك أو شغلك، وابنِ له مساحة تقدر تستخدمها بعد انتهاء التاسك — مش تجربة وهمية تقفلها بعدها.</p>
+      <ol class="steps">
+        <li>أنشئ Notebook باسم واضح وارفع عليها مصادر حقيقية مرتبطة بالموضوع.</li>
+        <li>اسأل سؤالًا تحتاج إجابته فعلًا، وافتح Citation للتأكد من المصدر.</li>
+        <li>جرّب مخرجًا واحدًا من الـStudio: Audio أو Video أو Mind Map أو Flashcards أو Quiz.</li>
+        <li>شارك الرابط بصلاحية تفتح، واكتب في سطرين: عملت المساحة لإيه؟ وفرقت معاك في إيه؟</li>
+      </ol>
+      <div class="grid">
+        <article class="card"><h3>لو بتتعلم</h3><p>محاضرات كورس، كتاب، أوراق بحثية أو مادة تريد مراجعتها.</p></article>
+        <article class="card"><h3>لو بتشرح</h3><p>تسجيل درس + ملفه، ثم Flashcards أو Quiz تشاركه مع الطلبة.</p></article>
+        <article class="card"><h3>لو بتشتغل</h3><p>تسجيلات اجتماعات أو ملفات مشروع، ثم تقرير أو قائمة مهام.</p></article>
+        <article class="card"><h3>لو عندك بزنس</h3><p>سياسات، منتجات، أسئلة العملاء أو محتوى تحتاج الرجوع له بسرعة.</p></article>
+      </div>
+      <span class="brand-mini">Smarter With AI</span><span class="page-no">17</span>
+    </section>
+
+    <section class="page closing" id="end">
+      <span class="eyebrow">الخلاصة</span>
+      <h2>مصادرك مش أرشيف.<br>دي <mark>مساحة تشتغل معاك</mark>.</h2>
+      <p class="lead">لما تجمع المعرفة الصح، تنظّمها، وتسأل منها بوعي، أنت لا تختصر وقت البحث فقط. أنت تبني نظامًا ترجع له، تتعلم منه، وتحوّل نفس المادة لأكثر من شكل يناسبك ويناسب الناس اللي بتشاركهم المعرفة.</p>
+      <div class="quote"><em>افتكر دائمًا</em>NotebookLM يقرّبك من المصدر ويعيد تشكيله، لكنه لا يلغي دورك في الاختيار والمراجعة والحكم على النتيجة.</div>
+      <p class="signature">خليك دايمًا Smarter ✦</p>
+      <span class="brand-mini">Smarter With AI</span><span class="page-no">18</span>
+    </section>
+  </main>
+  <script>
+    const bar=document.getElementById('bar');
+    const update=()=>{const h=document.documentElement;const max=h.scrollHeight-h.clientHeight;bar.style.width=(max?Math.min(100,h.scrollTop/max*100):0)+'%'};
+    addEventListener('scroll',update,{passive:true});addEventListener('resize',update);update();
+  </script>
+</body>
+</html>
