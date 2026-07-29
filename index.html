@@ -57,6 +57,15 @@
     .contents a{text-decoration:none;padding:15px 17px;border:1px solid var(--line);border-radius:14px;background:#fff;font-weight:800;color:var(--navy);transition:.2s}
     .contents a:hover{border-color:var(--green);transform:translateY(-2px);box-shadow:0 8px 22px rgba(0,168,107,.10)}
     .contents b{display:inline-grid;place-items:center;width:28px;height:28px;border-radius:9px;background:var(--mint);color:var(--green-dark);margin-left:8px}
+    .video-shell{overflow:hidden;border:1px solid var(--line);border-radius:22px;background:#031321;box-shadow:0 18px 45px rgba(7,29,53,.16)}
+    .video-shell iframe{display:block;width:100%;aspect-ratio:16/9;border:0}
+    .watch-actions{display:flex;gap:12px;align-items:center;flex-wrap:wrap;margin-top:20px}
+    .watch-link{display:inline-flex;align-items:center;justify-content:center;gap:8px;padding:12px 19px;border-radius:12px;background:var(--navy);color:#fff;text-decoration:none;font-weight:900}
+    .watch-link:hover{background:var(--green-dark);transform:translateY(-2px)}
+    .timeline{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:11px;margin-top:22px}
+    .time-link{display:flex;align-items:center;gap:12px;padding:13px 15px;border:1px solid var(--line);border-radius:14px;background:#fff;text-decoration:none;color:var(--navy);font-weight:900}
+    .time-link:hover{border-color:var(--green);transform:translateY(-2px)}
+    .time-link time{direction:ltr;display:inline-grid;place-items:center;min-width:70px;padding:6px 8px;border-radius:9px;background:var(--mint);color:var(--green-dark);font-size:13px}
     .steps{margin:22px 0 0;padding:0;list-style:none;counter-reset:step}
     .steps li{position:relative;margin-bottom:14px;padding:14px 62px 14px 18px;border-radius:14px;background:#f4f8f6;color:#294257}
     .steps li:before{counter-increment:step;content:counter(step);position:absolute;right:14px;top:13px;width:34px;height:34px;border-radius:10px;display:grid;place-items:center;background:var(--green);color:#fff;font-weight:900}
@@ -70,14 +79,16 @@
     .checklist{display:grid;gap:12px;margin-top:22px}
     .check{padding:15px 17px;border:1px solid var(--line);border-radius:14px;background:#fff}
     .check:before{content:"✓";display:inline-grid;place-items:center;width:26px;height:26px;margin-left:10px;border-radius:50%;background:var(--green);color:#fff;font-weight:900}
-    .closing{display:flex;flex-direction:column;justify-content:center;background:linear-gradient(160deg,#f9fffc,#eef9f4)}
-    .closing h2{font-size:clamp(42px,6vw,68px)}.signature{margin-top:35px;font-size:15px;font-weight:900;color:var(--green-dark)}
+    .closing{display:flex;flex-direction:column;justify-content:center;padding-bottom:150px;background:linear-gradient(160deg,#f9fffc,#eef9f4)}
+    .closing h2{font-size:clamp(42px,6vw,68px)}.closing .signature{position:absolute;left:50%;bottom:72px;transform:translateX(-50%);width:max-content;max-width:calc(100% - 120px);margin:0;text-align:center;direction:rtl;white-space:nowrap;font-size:18px;font-weight:900;color:var(--green-dark)}
     @media(max-width:720px){
       .book{padding:12px 8px 70px}.page{min-height:auto;margin:12px auto;padding:52px 28px 62px;border-width:1.5px;border-radius:4px}
       .cover{min-height:760px;padding:60px 30px}.logo{width:78px;height:78px;margin-bottom:30px}
       .grid,.grid.three,.contents{grid-template-columns:1fr}.tools{left:10px;bottom:10px}.tool{width:42px;height:42px}
       .brand-mini{right:24px}.page-no{left:24px}.bigword{font-size:64px;left:22px;top:38px}
       .lead{font-size:18px}.story p{font-size:16px}.quote{font-size:18px;padding:20px}.flow{display:grid;grid-template-columns:1fr}.flow i{transform:rotate(90deg)}
+      .timeline{grid-template-columns:1fr}.watch-link{width:100%}
+      .closing{padding-bottom:125px}.closing .signature{bottom:68px;max-width:calc(100% - 70px);white-space:normal}
     }
     @media print{
       @page{size:A4;margin:0}body{background:white}.book{width:100%;padding:0}.tools,.progress{display:none}
@@ -102,11 +113,34 @@
       <span class="brand-mini">Smarter With AI</span><span class="page-no">01</span>
     </section>
 
+    <section class="page" id="lecture-video">
+      <span class="eyebrow">فيديو المحاضرة • الجزء الثاني</span>
+      <h2>شاهد جزء NotebookLM</h2>
+      <p class="lead">جزء <mark>NotebookLM</mark> يبدأ عند <mark>34:10</mark> ويستمر حتى نهاية المحاضرة. استخدم الخريطة الزمنية تحت الفيديو للانتقال مباشرة لكل أداة بدل ما تدور عليها يدويًا.</p>
+      <div class="video-shell">
+        <iframe src="https://www.youtube.com/embed/lwJn1frQUGQ?start=2050&amp;rel=0" title="المحاضرة الثانية — NotebookLM حتى نهاية المحاضرة" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+      </div>
+      <div class="timeline" aria-label="توقيتات الجزء الثاني">
+        <a class="time-link" href="https://youtu.be/lwJn1frQUGQ?t=2050" target="_blank" rel="noopener"><time>34:10</time><span>بداية الجزء الثاني</span></a>
+        <a class="time-link" href="https://youtu.be/lwJn1frQUGQ?t=3600" target="_blank" rel="noopener"><time>1:00:00</time><span>Studio + البودكاست الصوتي</span></a>
+        <a class="time-link" href="https://youtu.be/lwJn1frQUGQ?t=4118" target="_blank" rel="noopener"><time>1:08:38</time><span>Video Overview</span></a>
+        <a class="time-link" href="https://youtu.be/lwJn1frQUGQ?t=4750" target="_blank" rel="noopener"><time>1:19:10</time><span>Mind Map</span></a>
+        <a class="time-link" href="https://youtu.be/lwJn1frQUGQ?t=4983" target="_blank" rel="noopener"><time>1:23:03</time><span>Flashcards ثم Quiz</span></a>
+        <a class="time-link" href="https://youtu.be/lwJn1frQUGQ?t=5867" target="_blank" rel="noopener"><time>1:37:47</time><span>Notebooks in Gemini</span></a>
+        <a class="time-link" href="https://youtu.be/lwJn1frQUGQ?t=6186" target="_blank" rel="noopener"><time>1:43:06</time><span>التاسك المطلوبة</span></a>
+      </div>
+      <div class="watch-actions">
+        <a class="watch-link" href="https://youtu.be/lwJn1frQUGQ?t=2050" target="_blank" rel="noopener">شاهد NotebookLM حتى نهاية المحاضرة ↗</a>
+      </div>
+      <span class="brand-mini">Smarter With AI</span><span class="page-no">02</span>
+    </section>
+
     <section class="page" id="contents">
       <span class="eyebrow">خريطة الكتيب</span>
       <h2>من المصدر… إلى تجربة تعلم كاملة</h2>
       <p class="lead">هنبدأ بإنشاء المساحة، نفهم إزاي الإجابات ترتبط بالمصادر، وبعدها ندخل الـStudio ونحوّل نفس المعرفة لصوت وفيديو ومراجعة واختبارات.</p>
       <nav class="contents">
+        <a href="#lecture-video"><b>▶</b>فيديو الجزء الثاني والتوقيتات</a>
         <a href="#idea"><b>1</b>NotebookLM بيحل إيه؟</a>
         <a href="#create"><b>2</b>إنشاء المساحة وإضافة المصادر</a>
         <a href="#chat"><b>3</b>السؤال والإجابة بالـCitations</a>
@@ -120,7 +154,8 @@
         <a href="#flashcards"><b>11</b>Flashcards</a>
         <a href="#quiz"><b>12</b>Quizzes وReports</a>
         <a href="#share"><b>13</b>المشاركة والنسخ</a>
-        <a href="#task"><b>14</b>تاسك المحاضرة</a>
+        <a href="#gemini-notebooks"><b>14</b>Notebooks in Gemini</a>
+        <a href="#task"><b>15</b>تاسك المحاضرة</a>
       </nav>
       <span class="brand-mini">Smarter With AI</span><span class="page-no">02</span>
     </section>
@@ -324,8 +359,21 @@
       <span class="brand-mini">Smarter With AI</span><span class="page-no">16</span>
     </section>
 
+    <section class="page" id="gemini-notebooks">
+      <span class="bigword">15</span><span class="eyebrow">Notebooks in Gemini • 1:37:47</span>
+      <h2>خلي مصادر NotebookLM قريبة منك داخل Gemini</h2>
+      <div class="story">
+        <p>بعد ما بنيت الـNotebook ورتبت مصادرها، مش لازم تبدأ كل مرة من الصفر. تقدر ترجع للنوت بوكس من داخل <mark>Gemini</mark> وتستخدم المعرفة اللي جمعتها وأنت بتكمل شغلك أو مذاكرتك.</p>
+        <p>الفكرة هنا إن الـNotebook تفضل هي <mark>قاعدة المعرفة الموثوقة</mark>، بينما Gemini يساعدك تستخدمها في محادثة أوسع: تشرح نقطة، ترتب خطة، أو تبني مخرج جديد من نفس المادة.</p>
+        <p>اختار الـNotebook المناسبة للسؤال الحالي، وحدد المطلوب بوضوح. ولو عندك أكتر من مساحة لمشاريع مختلفة، خليك محافظ على الفصل بينهم عشان كل محادثة تفضل مبنية على السياق الصح.</p>
+      </div>
+      <div class="flow"><div>Notebook منظّمة</div><i>←</i><div>اختيارها داخل Gemini</div><i>←</i><div>سؤال أو مخرج جديد</div></div>
+      <div class="quote"><em>الفكرة الأهم</em>بدل ما تعيد رفع نفس المصادر، ارجع لمساحة المعرفة اللي جهزتها وكمل منها.</div>
+      <span class="brand-mini">Smarter With AI</span><span class="page-no">17</span>
+    </section>
+
     <section class="page" id="task">
-      <span class="bigword">15</span><span class="eyebrow">تاسك المحاضرة</span>
+      <span class="bigword">16</span><span class="eyebrow">تاسك المحاضرة • 1:43:06</span>
       <h2>اعمل Notebook لحاجة حقيقية</h2>
       <p class="lead">اختار موضوعًا يخص دراستك أو شغلك، وابنِ له مساحة تقدر تستخدمها بعد انتهاء التاسك — مش تجربة وهمية تقفلها بعدها.</p>
       <ol class="steps">
@@ -348,13 +396,14 @@
       <h2>مصادرك مش أرشيف.<br>دي <mark>مساحة تشتغل معاك</mark>.</h2>
       <p class="lead">لما تجمع المعرفة الصح، تنظّمها، وتسأل منها بوعي، أنت لا تختصر وقت البحث فقط. أنت تبني نظامًا ترجع له، تتعلم منه، وتحوّل نفس المادة لأكثر من شكل يناسبك ويناسب الناس اللي بتشاركهم المعرفة.</p>
       <div class="quote"><em>افتكر دائمًا</em>NotebookLM يقرّبك من المصدر ويعيد تشكيله، لكنه لا يلغي دورك في الاختيار والمراجعة والحكم على النتيجة.</div>
-      <p class="signature">خليك دايمًا Smarter ✦</p>
+      <p class="signature">خليك دايمًا Smarter With AI ✦</p>
       <span class="brand-mini">Smarter With AI</span><span class="page-no">18</span>
     </section>
   </main>
   <script>
     const bar=document.getElementById('bar');
     const update=()=>{const h=document.documentElement;const max=h.scrollHeight-h.clientHeight;bar.style.width=(max?Math.min(100,h.scrollTop/max*100):0)+'%'};
+    document.querySelectorAll('.page-no').forEach((el,index)=>el.textContent=String(index+1).padStart(2,'0'));
     addEventListener('scroll',update,{passive:true});addEventListener('resize',update);update();
   </script>
 </body>
