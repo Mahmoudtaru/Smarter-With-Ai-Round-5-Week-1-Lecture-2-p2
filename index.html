@@ -5,6 +5,9 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="theme-color" content="#071d35">
   <title>NotebookLM — اتعلّم واشتغل من مصادرك | Smarter With AI</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Alexandria:wght@500;600;700;800&family=IBM+Plex+Sans+Arabic:wght@400;500;600;700&display=swap" rel="stylesheet">
   <style>
     :root{
       --navy:#071d35;--navy-2:#0d2d4d;--green:#00a86b;--green-dark:#087a56;
@@ -94,6 +97,153 @@
       @page{size:A4;margin:0}body{background:white}.book{width:100%;padding:0}.tools,.progress{display:none}
       .page{width:210mm;height:297mm;min-height:297mm;margin:0;padding:19mm 18mm 18mm;border-radius:0;box-shadow:none;break-after:page;page-break-after:always}
       .cover{min-height:297mm}.page:last-child{break-after:auto;page-break-after:auto}
+    }
+
+    /* Reading system — matched to the first-lecture booklets */
+    body{
+      font-family:"IBM Plex Sans Arabic",Tahoma,sans-serif;
+      line-height:1.9;
+      background:
+        radial-gradient(circle at 8% 0%,#0a987121,transparent 28rem),
+        linear-gradient(145deg,#e9f0ed,#f4f1e8 48%,#e7efeb);
+    }
+    .book{width:min(940px,calc(100% - 32px));padding:34px 0 72px}
+    .page{
+      min-height:720px;
+      margin:0 0 34px;
+      padding:68px 72px 86px;
+      overflow:hidden;
+      background:var(--paper);
+      border:1px solid #071f3024;
+      border-right:8px solid var(--navy);
+      border-radius:28px;
+      box-shadow:0 28px 70px -35px #071f3061,0 10px 28px -20px #071f303d;
+    }
+    .page:before{
+      width:auto;height:auto;inset:14px;
+      border:1px solid #0a987124;
+      border-radius:19px;
+      pointer-events:none;
+    }
+    .page:after{display:none}
+    .page-no{left:72px;bottom:27px;font:700 11px Alexandria,sans-serif}
+    .brand-mini{right:72px;bottom:27px;font:700 10px Alexandria,sans-serif;letter-spacing:.06em}
+    .cover{
+      min-height:760px;
+      padding:68px 72px 86px;
+      border-right-color:var(--green);
+      background:
+        radial-gradient(circle at 15% 18%,#19bd834d,transparent 24rem),
+        linear-gradient(145deg,#041824,var(--navy-2));
+    }
+    .cover:before{border-color:#ffffff24}
+    .logo{margin-bottom:38px}
+    .eyebrow{
+      max-width:100%;
+      font:700 13px Alexandria,sans-serif;
+      line-height:1.55;
+      white-space:normal;
+    }
+    h1{
+      max-width:780px;
+      margin-bottom:22px;
+      font:800 clamp(43px,6.5vw,66px)/1.36 Alexandria,sans-serif;
+      letter-spacing:-1.5px;
+    }
+    h2{
+      margin-bottom:22px;
+      font:700 clamp(28px,4.6vw,44px)/1.45 Alexandria,sans-serif;
+      letter-spacing:-.6px;
+    }
+    h3{font:700 20px/1.55 Alexandria,sans-serif}
+    .cover-lead{max-width:700px;font-size:19px;line-height:1.95}
+    .lead{font-size:19px;line-height:2;color:#294653}
+    .story p{margin-bottom:19px;font-size:18px;line-height:2.05;color:#294653}
+    .quote{margin:28px 0;padding:23px 25px;font-size:19px;line-height:1.95}
+    .quote em{font:700 13px/1.6 Alexandria,sans-serif}
+    .soft{padding:22px 24px;font-size:17px;line-height:1.95}
+    .grid,.contents{gap:12px;margin-top:26px}
+    .card{padding:20px;border-radius:17px}
+    .card p{font-size:15px;line-height:1.85}
+    .contents a{min-height:62px;padding:14px 16px;font-size:15px;line-height:1.65}
+    .steps li{margin-bottom:14px;padding:15px 62px 15px 18px;font-size:16.5px;line-height:1.85}
+    .check{font-size:16.5px;line-height:1.85}
+    .time-link{font-size:15px;line-height:1.65}
+    .flow div{font-size:15px;line-height:1.75}
+    .closing{justify-content:center;padding-bottom:86px;text-align:center}
+    .closing .eyebrow{align-self:center}
+    .closing h2,.closing .lead{margin-right:auto;margin-left:auto}
+    .closing .quote{width:100%;text-align:right}
+    .closing .signature{
+      position:static;
+      transform:none;
+      width:100%;
+      max-width:none;
+      margin:38px auto 0;
+      text-align:center;
+      white-space:normal;
+      font:700 18px/1.7 Alexandria,sans-serif;
+    }
+    @media(max-width:720px){
+      .book{width:calc(100% - 18px);padding:18px 0 64px}
+      .page{
+        min-height:0;
+        margin:0 0 18px;
+        padding:45px 28px 82px;
+        border-width:1px;
+        border-right-width:5px;
+        border-radius:21px;
+      }
+      .page:before{inset:8px;border-radius:15px}
+      .page-no{left:28px;bottom:23px}
+      .brand-mini{right:28px;bottom:23px}
+      .cover{min-height:680px;padding:52px 30px 82px}
+      .cover h1{font-size:40px;line-height:1.42}
+      .cover-lead{font-size:17px;line-height:1.95}
+      .logo{width:78px;height:78px;margin-bottom:30px;border-radius:22px}
+      h2{font-size:30px;line-height:1.5}
+      h3{font-size:19px}
+      .lead{font-size:17px;line-height:2}
+      .story p{font-size:16.5px;line-height:2}
+      .quote{padding:20px;font-size:17px;line-height:1.95}
+      .soft{padding:19px 20px;font-size:16px;line-height:1.9}
+      .card{padding:18px}.card p{font-size:14.5px;line-height:1.85}
+      .steps li{padding:15px 58px 15px 15px;font-size:16px;line-height:1.9}
+      .check{font-size:16px;line-height:1.85}
+      .time-link{font-size:14.5px}.time-link time{min-width:66px}
+      .bigword{font-size:58px;left:20px;top:34px}
+      .video-shell{border-radius:17px}
+      .closing{padding-top:70px;padding-bottom:82px}
+      .closing h2{font-size:36px;line-height:1.5}
+      .closing .signature{margin-top:30px;font-size:17px}
+    }
+    @media(max-width:430px){
+      .page{padding-right:22px;padding-left:22px}
+      .page-no{left:22px}.brand-mini{right:22px}
+      .cover{min-height:660px;padding-right:24px;padding-left:24px}
+      .cover h1{font-size:34px}
+      h2{font-size:27px}
+      .meta{gap:8px}.meta span{padding:7px 10px;font-size:11px}
+      .eyebrow{font-size:12px}
+    }
+    @media print{
+      @page{size:A4;margin:0}
+      body{background:#fff}
+      .book{width:100%;padding:0}
+      .tools,.progress{display:none}
+      .page{
+        width:210mm;
+        min-height:297mm;
+        height:auto;
+        margin:0;
+        padding:19mm 18mm 22mm;
+        border-radius:0;
+        box-shadow:none;
+        break-after:page;
+        page-break-after:always;
+      }
+      .cover{min-height:297mm}
+      .page:last-child{break-after:auto;page-break-after:auto}
     }
   </style>
 </head>
@@ -379,7 +529,7 @@
       <ol class="steps">
         <li>أنشئ Notebook باسم واضح وارفع عليها مصادر حقيقية مرتبطة بالموضوع.</li>
         <li>اسأل سؤالًا تحتاج إجابته فعلًا، وافتح Citation للتأكد من المصدر.</li>
-        <li>جرّب مخرجًا واحدًا من الـStudio: Audio أو Video أو Mind Map أو Flashcards أو Quiz.</li>
+        <li>نوّع وجرّب أكبر قدر ممكن من مخرجات الـStudio: Audio وVideo وMind Map وFlashcards وQuiz، واستكشف إمكانيات الأداة وإزاي كل مخرج ممكن يفيدك.</li>
         <li>شارك الرابط بصلاحية تفتح، واكتب في سطرين: عملت المساحة لإيه؟ وفرقت معاك في إيه؟</li>
       </ol>
       <div class="grid">
