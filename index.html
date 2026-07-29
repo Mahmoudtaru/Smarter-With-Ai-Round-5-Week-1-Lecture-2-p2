@@ -82,6 +82,21 @@
     .checklist{display:grid;gap:12px;margin-top:22px}
     .check{padding:15px 17px;border:1px solid var(--line);border-radius:14px;background:#fff}
     .check:before{content:"✓";display:inline-grid;place-items:center;width:26px;height:26px;margin-left:10px;border-radius:50%;background:var(--green);color:#fff;font-weight:900}
+    .resource-actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:22px}
+    .resource-link{display:inline-flex;align-items:center;justify-content:center;min-height:48px;padding:11px 17px;border-radius:12px;background:var(--navy);color:#fff;text-decoration:none;font-weight:900}
+    .resource-link.alt{background:var(--green-dark)}
+    .resource-link:hover{transform:translateY(-2px);box-shadow:0 10px 25px rgba(7,29,53,.16)}
+    .prompt-box{margin-top:22px;padding:20px 22px;border:1px solid #bcebd8;border-radius:18px;background:#f3fbf7}
+    .prompt-box header{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:10px}
+    .prompt-box strong{font:700 15px/1.6 Alexandria,sans-serif;color:var(--green-dark)}
+    .prompt-text{margin:0;color:#233f4f;font-size:16px;line-height:1.95}
+    .copy-prompt{flex:0 0 auto;padding:8px 12px;border:0;border-radius:10px;background:var(--navy);color:#fff;cursor:pointer;font-weight:900}
+    .copy-prompt.copied{background:var(--green-dark)}
+    .book-switch{display:flex;align-items:center;justify-content:space-between;gap:18px;width:100%;margin:30px 0 0;padding:20px 22px;border:2px solid var(--navy);border-radius:18px;background:#fff;color:var(--navy);text-decoration:none;text-align:right;transition:.2s}
+    .book-switch:hover{transform:translateY(-3px);border-color:var(--green);box-shadow:0 14px 32px rgba(7,29,53,.12)}
+    .book-switch small{display:block;margin-bottom:4px;color:var(--green-dark);font-weight:900}
+    .book-switch strong{display:block;font:700 19px/1.6 Alexandria,sans-serif}
+    .book-switch b{display:grid;place-items:center;flex:0 0 46px;width:46px;height:46px;border-radius:50%;background:var(--navy);color:#fff;font-size:20px}
     .closing{display:flex;flex-direction:column;justify-content:center;padding-bottom:150px;background:linear-gradient(160deg,#f9fffc,#eef9f4)}
     .closing h2{font-size:clamp(42px,6vw,68px)}.closing .signature{position:absolute;left:50%;bottom:72px;transform:translateX(-50%);width:max-content;max-width:calc(100% - 120px);margin:0;text-align:center;direction:rtl;white-space:nowrap;font-size:18px;font-weight:900;color:var(--green-dark)}
     @media(max-width:720px){
@@ -89,8 +104,11 @@
       .cover{min-height:760px;padding:60px 30px}.logo{width:78px;height:78px;margin-bottom:30px}
       .grid,.grid.three,.contents{grid-template-columns:1fr}.tools{left:10px;bottom:10px}.tool{width:42px;height:42px}
       .brand-mini{right:24px}.page-no{left:24px}.bigword{font-size:64px;left:22px;top:38px}
-      .lead{font-size:18px}.story p{font-size:16px}.quote{font-size:18px;padding:20px}.flow{display:grid;grid-template-columns:1fr}.flow i{transform:rotate(90deg)}
+      .lead{font-size:18px}.story p{font-size:16px}.quote{font-size:18px;padding:20px}.flow{display:grid;grid-template-columns:1fr}.flow i{display:none}
       .timeline{grid-template-columns:1fr}.watch-link{width:100%}
+      .resource-actions{display:grid}.resource-link{width:100%}
+      .prompt-box{padding:18px}.prompt-box header{align-items:flex-start}.prompt-text{font-size:15.5px}
+      .book-switch{padding:17px 18px}.book-switch strong{font-size:17px}.book-switch b{width:42px;height:42px;flex-basis:42px}
       .closing{padding-bottom:125px}.closing .signature{bottom:68px;max-width:calc(100% - 70px);white-space:normal}
     }
     @media print{
@@ -107,36 +125,49 @@
         radial-gradient(circle at 8% 0%,#0a987121,transparent 28rem),
         linear-gradient(145deg,#e9f0ed,#f4f1e8 48%,#e7efeb);
     }
-    .book{width:min(940px,calc(100% - 32px));padding:34px 0 72px}
+    .book{width:min(1080px,calc(100% - 40px));padding:34px 0 72px}
     .page{
-      min-height:720px;
-      margin:0 0 34px;
+      min-height:760px;
+      margin:0 0 30px;
       padding:68px 72px 86px;
       overflow:hidden;
       background:var(--paper);
-      border:1px solid #071f3024;
-      border-right:8px solid var(--navy);
-      border-radius:28px;
-      box-shadow:0 28px 70px -35px #071f3061,0 10px 28px -20px #071f303d;
+      border:2px solid var(--navy);
+      border-radius:8px;
+      box-shadow:0 24px 65px rgba(7,29,53,.13);
     }
     .page:before{
-      width:auto;height:auto;inset:14px;
-      border:1px solid #0a987124;
-      border-radius:19px;
+      display:block;
+      width:70px;height:70px;
+      inset:16px 16px auto auto;
+      border:0;
+      border-top:7px solid var(--green);
+      border-right:7px solid var(--green);
+      border-radius:0;
       pointer-events:none;
     }
-    .page:after{display:none}
-    .page-no{left:72px;bottom:27px;font:700 11px Alexandria,sans-serif}
-    .brand-mini{right:72px;bottom:27px;font:700 10px Alexandria,sans-serif;letter-spacing:.06em}
-    .cover{
-      min-height:760px;
-      padding:68px 72px 86px;
-      border-right-color:var(--green);
-      background:
-        radial-gradient(circle at 15% 18%,#19bd834d,transparent 24rem),
-        linear-gradient(145deg,#041824,var(--navy-2));
+    .page:after{
+      display:block;
+      width:70px;height:70px;
+      inset:auto auto 16px 16px;
+      border:0;
+      border-bottom:7px solid var(--green);
+      border-left:7px solid var(--green);
+      border-radius:0;
+      pointer-events:none;
     }
-    .cover:before{border-color:#ffffff24}
+    .page-no{left:34px;bottom:24px;font:700 11px Alexandria,sans-serif}
+    .brand-mini{right:34px;bottom:24px;font:700 10px Alexandria,sans-serif;letter-spacing:.06em}
+    .cover{
+      min-height:820px;
+      padding:68px 72px 86px;
+      background:
+        radial-gradient(circle at 18% 18%,rgba(0,168,107,.28),transparent 30%),
+        radial-gradient(circle at 82% 75%,rgba(244,185,66,.16),transparent 28%),
+        linear-gradient(145deg,#06182d,#0b2b4a 65%,#073e3c);
+    }
+    .cover:before{border-top-color:var(--green);border-right-color:var(--green)}
+    .cover:after{border-bottom-color:var(--green);border-left-color:var(--green)}
     .logo{margin-bottom:38px}
     .eyebrow{
       max-width:100%;
@@ -184,20 +215,32 @@
       white-space:normal;
       font:700 18px/1.7 Alexandria,sans-serif;
     }
+    @media(min-width:721px) and (max-width:1024px){
+      .book{width:calc(100% - 28px)}
+      .page{padding:62px 54px 84px}
+      .cover{padding:62px 54px 84px}
+    }
     @media(max-width:720px){
-      .book{width:calc(100% - 18px);padding:18px 0 64px}
+      .book{width:100%;padding:12px 8px 64px}
       .page{
         min-height:0;
-        margin:0 0 18px;
-        padding:45px 28px 82px;
-        border-width:1px;
-        border-right-width:5px;
-        border-radius:21px;
+        margin:0 0 16px;
+        padding:52px 28px 76px;
+        border-width:1.5px;
+        border-radius:6px;
       }
-      .page:before{inset:8px;border-radius:15px}
-      .page-no{left:28px;bottom:23px}
-      .brand-mini{right:28px;bottom:23px}
-      .cover{min-height:680px;padding:52px 30px 82px}
+      .page:before,.page:after,.bigword{display:none}
+      .page:before{
+        width:44px;height:44px;inset:11px 11px auto auto;
+        border-top-width:5px;border-right-width:5px;
+      }
+      .page:after{
+        width:44px;height:44px;inset:auto auto 11px 11px;
+        border-bottom-width:5px;border-left-width:5px;
+      }
+      .page-no{left:28px;bottom:24px}
+      .brand-mini{right:28px;bottom:24px}
+      .cover{min-height:720px;padding:58px 30px 80px}
       .cover h1{font-size:40px;line-height:1.42}
       .cover-lead{font-size:17px;line-height:1.95}
       .logo{width:78px;height:78px;margin-bottom:30px;border-radius:22px}
@@ -218,9 +261,11 @@
       .closing .signature{margin-top:30px;font-size:17px}
     }
     @media(max-width:430px){
-      .page{padding-right:22px;padding-left:22px}
+      .page{padding:48px 22px 74px}
       .page-no{left:22px}.brand-mini{right:22px}
-      .cover{min-height:660px;padding-right:24px;padding-left:24px}
+      .page:before{width:36px;height:36px;inset:9px 9px auto auto;border-top-width:4px;border-right-width:4px}
+      .page:after{width:36px;height:36px;inset:auto auto 9px 9px;border-bottom-width:4px;border-left-width:4px}
+      .cover{min-height:680px;padding:54px 24px 78px}
       .cover h1{font-size:34px}
       h2{font-size:27px}
       .meta{gap:8px}.meta span{padding:7px 10px;font-size:11px}
@@ -293,19 +338,24 @@
         <a href="#lecture-video"><b>▶</b>فيديو الجزء الثاني والتوقيتات</a>
         <a href="#idea"><b>1</b>NotebookLM بيحل إيه؟</a>
         <a href="#create"><b>2</b>إنشاء المساحة وإضافة المصادر</a>
-        <a href="#chat"><b>3</b>السؤال والإجابة بالـCitations</a>
-        <a href="#organize"><b>4</b>Labels وCollections</a>
-        <a href="#learn"><b>5</b>Learning Guide والتخصيص</a>
-        <a href="#uses"><b>6</b>الدراسة والشغل والبيت</a>
-        <a href="#studio"><b>7</b>فكرة الـStudio</a>
-        <a href="#audio"><b>8</b>Audio Overviews</a>
-        <a href="#video"><b>9</b>Video Overviews</a>
-        <a href="#mindmap"><b>10</b>Mind Maps</a>
-        <a href="#flashcards"><b>11</b>Flashcards</a>
-        <a href="#quiz"><b>12</b>Quizzes وReports</a>
-        <a href="#share"><b>13</b>المشاركة والنسخ</a>
-        <a href="#gemini-notebooks"><b>14</b>Notebooks in Gemini</a>
-        <a href="#task"><b>15</b>تاسك المحاضرة</a>
+        <a href="#sources"><b>3</b>أنواع المصادر وتجهيزها</a>
+        <a href="#youtube-tools"><b>4</b>الفيديو وYouTube والـExtension</a>
+        <a href="#audio-files"><b>5</b>الملفات الصوتية والتسجيلات</a>
+        <a href="#pdf-files"><b>6</b>ضغط وتقسيم ملفات PDF</a>
+        <a href="#chat"><b>7</b>السؤال والإجابة بالـCitations</a>
+        <a href="#organize"><b>8</b>Labels وCollections</a>
+        <a href="#learn"><b>9</b>Learning Guide والتخصيص</a>
+        <a href="#uses"><b>10</b>الدراسة والشغل والبيت</a>
+        <a href="#studio"><b>11</b>فكرة الـStudio</a>
+        <a href="#audio"><b>12</b>Audio Overviews</a>
+        <a href="#video"><b>13</b>Video Overviews</a>
+        <a href="#mindmap"><b>14</b>Mind Maps</a>
+        <a href="#flashcards"><b>15</b>Flashcards</a>
+        <a href="#quiz"><b>16</b>Quizzes وReports</a>
+        <a href="#share"><b>17</b>المشاركة والنسخ</a>
+        <a href="#limits"><b>18</b>إمتى تستخدم NotebookLM؟</a>
+        <a href="#gemini-notebooks"><b>19</b>Notebooks in Gemini</a>
+        <a href="#task"><b>20</b>تاسك المحاضرة</a>
       </nav>
       <span class="brand-mini">Smarter With AI</span><span class="page-no">02</span>
     </section>
@@ -341,8 +391,74 @@
       <span class="brand-mini">Smarter With AI</span><span class="page-no">04</span>
     </section>
 
+    <section class="page" id="sources">
+      <span class="bigword">03</span><span class="eyebrow">مصادرك</span>
+      <h2>تقريبًا أي معرفة عندك… تقدر تبدأ منها</h2>
+      <p class="lead">NotebookLM بتتعامل مع أنواع مختلفة من المصادر: ملفات، نصوص منسوخة، صفحات ويب، روابط YouTube، تسجيلات صوتية وفيديوهات. اختار الشكل الأسهل ليك، وجهّز الملف قبل الرفع لو حجمه كبير.</p>
+      <div class="grid">
+        <article class="card"><div class="num">PDF</div><h3>كتب وملفات</h3><p>كتاب، بحث، ملف شرح، عرض تقديمي أو مستند خاص بالشغل.</p></article>
+        <article class="card"><div class="num">T</div><h3>نصوص ومواقع</h3><p>تدويناتك، ملاحظات منسوخة، صفحة ويب أو معلومات مهمة خاصة بالبيت.</p></article>
+        <article class="card"><div class="num">▶</div><h3>فيديو وYouTube</h3><p>فيديو واحد أو Playlist كاملة لموضوع مهتم بيه.</p></article>
+        <article class="card"><div class="num">♫</div><h3>صوت وتسجيلات</h3><p>شرحك، محاضراتك، تسجيلات المذاكرة أو اجتماعات الشغل.</p></article>
+      </div>
+      <div class="quote"><em>ابدأ بالأهم</em>مش لازم ترفع كل حاجة من أول مرة. ابدأ بالمصادر الأساسية، استخدمها، وبعدها زوّد المساحة حسب احتياجك.</div>
+      <span class="brand-mini">Smarter With AI</span><span class="page-no">05</span>
+    </section>
+
+    <section class="page" id="youtube-tools">
+      <span class="bigword">04</span><span class="eyebrow">Video & YouTube</span>
+      <h2>الفيديو كبير؟ حطه على YouTube واستخدم الرابط</h2>
+      <div class="story">
+        <p>الفيديوهات غالبًا حجمها كبير، وممكن تعدّي 200MB بسهولة. بدل ما تستنى الرفع أو تستهلك باقتك، ارفع الفيديو على YouTube ثم ضيف الرابط داخل الـNotebook.</p>
+        <p>نفس الفكرة تنفع مع <mark>Playlist كاملة</mark> لكورس أو موضوع مهتم بيه. ولو بتعمل ده باستمرار، إضافة <mark>YouTube to NotebookLM</mark> على Chrome تختصر الخطوات: من الفيديو أو الـPlaylist تقدر تعمل Notebook جديدة أو تضيف المحتوى لنوت بوك موجودة بالفعل.</p>
+      </div>
+      <ol class="steps">
+        <li>ثبّت الإضافة على متصفح Chrome.</li>
+        <li>افتح فيديو YouTube أو الـPlaylist المطلوبة.</li>
+        <li>اختار إنشاء Notebook جديدة أو الإضافة لمساحة موجودة.</li>
+      </ol>
+      <div class="resource-actions">
+        <a class="resource-link" href="https://chromewebstore.google.com/detail/kobncfkmjelbefaoohoblamnbackjggk?utm_source=item-share-cb" target="_blank" rel="noopener">افتح إضافة YouTube to NotebookLM ↗</a>
+      </div>
+      <span class="brand-mini">Smarter With AI</span><span class="page-no">06</span>
+    </section>
+
+    <section class="page" id="audio-files">
+      <span class="bigword">05</span><span class="eyebrow">Audio Files</span>
+      <h2>تسجيلاتك تتحول لذاكرة تقدر تسألها</h2>
+      <div class="story">
+        <p>ارفع تسجيل اجتماع، محاضرة بصوتك، شرح بتذاكره أو أي ملف صوتي محتاج ترجع للكلام اللي جواه. بدل ما تسمع التسجيل كله كل مرة، تسأل عن القرار أو الفكرة وتراجع مكانها في المصدر.</p>
+        <p>لو الملف كبير، اعمل له <mark>Compress</mark> قبل الرفع. الضغط يقلل الحجم من غير تأثير ملحوظ على وضوح الكلام، وده مفيد جدًا لو الإنترنت محدود أو عندك تسجيلات كتير.</p>
+        <p>ولو معاك فيديو ومحتاج الكلام فقط، حوّله لملف صوتي الأول ثم اضغطه لو لزم. هتلاقي مواقع وتطبيقات موبايل مجانية للتحويل والضغط.</p>
+      </div>
+      <div class="grid">
+        <article class="card"><h3>اجتماع شغل</h3><p>استخرج القرارات، المسؤول عن كل خطوة، والـAction Items المطلوبة.</p></article>
+        <article class="card"><h3>محاضرة أو شرح</h3><p>حوّل التسجيل لمصدر تراجع منه، أو اعمل منه Quiz وFlashcards.</p></article>
+      </div>
+      <div class="quote"><em>هتلاقي الأدوات فين؟</em>تطبيق الدبلومة ← Bonus ← بنك الأدوات ← أدوات مساعدة (صوت وفيديو).</div>
+      <span class="brand-mini">Smarter With AI</span><span class="page-no">07</span>
+    </section>
+
+    <section class="page" id="pdf-files">
+      <span class="bigword">06</span><span class="eyebrow">PDF Tools</span>
+      <h2>الكتاب ضخم؟ اضغطه أو قسّمه قبل الرفع</h2>
+      <div class="story">
+        <p>لو ملف الـPDF حجمه كبير، استخدم <mark>Compress PDF</mark> عشان تقلل الحجم وتسهّل الرفع. ولو كتاب عدد صفحاته ضخم، مش لازم ترفعه كله مرة واحدة؛ استخدم <mark>Split PDF</mark> وقسّمه حسب الفصول أو الموضوعات المهمة.</p>
+        <p>التقسيم مفيد كمان في التركيز. لما تسأل عن فصل محدد، اختار الجزء المرتبط بالسؤال بدل ما تدخل الكتاب كله في كل مرة.</p>
+      </div>
+      <div class="grid">
+        <article class="card"><div class="num">↓</div><h3>Compress PDF</h3><p>يقلل حجم الملف عشان الرفع يبقى أسرع ويستهلك إنترنت أقل.</p></article>
+        <article class="card"><div class="num">✂</div><h3>Split PDF</h3><p>يقسّم الكتاب لفصول أو مجموعات صفحات ترفع منها اللي محتاجه فقط.</p></article>
+      </div>
+      <div class="resource-actions">
+        <a class="resource-link" href="https://www.ilovepdf.com/compress_pdf" target="_blank" rel="noopener">اضغط ملف PDF ↗</a>
+        <a class="resource-link alt" href="https://www.ilovepdf.com/split_pdf" target="_blank" rel="noopener">قسّم ملف PDF ↗</a>
+      </div>
+      <span class="brand-mini">Smarter With AI</span><span class="page-no">08</span>
+    </section>
+
     <section class="page" id="chat">
-      <span class="bigword">03</span><span class="eyebrow">Chat + Citations</span>
+      <span class="bigword">07</span><span class="eyebrow">Chat + Citations</span>
       <h2>كل إجابة لها طريق رجوع</h2>
       <div class="story">
         <p>بعد إضافة المصادر، تقدر تسأل سؤالًا عاديًا. لكن القيمة هنا إن الإجابة لا تأتي وحدها؛ تظهر معها <mark>Citations</mark> ترجعك للجزء الذي اعتمد عليه NotebookLM.</p>
@@ -350,12 +466,15 @@
         <p>وده مهم جدًا في التعلم: لو الشرح لم يقنعك، لا تكتفي بالإجابة. افتح الـCitation، اقرأ السياق الأصلي، ثم ارجع اسأل بصياغة أوضح. أنت لا تستبدل المصدر؛ أنت تختصر طريق الوصول له.</p>
       </div>
       <div class="flow"><div>اختر المصادر</div><i>←</i><div>اسأل</div><i>←</i><div>راجع الـCitation</div><i>←</i><div>كمّل السؤال</div></div>
-      <div class="soft"><p><strong>مثال:</strong> «في أي محاضرة اتشرح البحث العميق؟ لخّص الجزء، ثم اذكر لي المصدر والمكان الذي أرجع له للمراجعة.»</p></div>
+      <div class="prompt-box">
+        <header><strong>Prompt جاهز للتجربة</strong><button class="copy-prompt" type="button">نسخ</button></header>
+        <p class="prompt-text">في أي محاضرة اتشرح البحث العميق؟ لخّص الجزء بالمصري، واضرب مثالًا بسيطًا، ثم اذكر لي المصدر والمكان الذي أرجع له للمراجعة.</p>
+      </div>
       <span class="brand-mini">Smarter With AI</span><span class="page-no">05</span>
     </section>
 
     <section class="page" id="organize">
-      <span class="bigword">04</span><span class="eyebrow">Labels & Collections</span>
+      <span class="bigword">08</span><span class="eyebrow">Labels & Collections</span>
       <h2>لما المصادر والنوت بوكس يبدأوا يكبروا</h2>
       <div class="story">
         <p>داخل Notebook واحدة، ممكن يكون عندك تسجيل المحاضرة الأولى، ملف الشرح، ومقال مطلوب قراءته. بدل ما تختار الثلاثة يدويًا كل مرة، اجمعهم تحت <mark>Label</mark> باسم «المحاضرة الأولى». بعدها تختار الـLabel مرة واحدة في الشات أو الـStudio.</p>
@@ -370,7 +489,7 @@
     </section>
 
     <section class="page" id="learn">
-      <span class="bigword">05</span><span class="eyebrow">Configure Notebook</span>
+      <span class="bigword">09</span><span class="eyebrow">Configure Notebook</span>
       <h2>خلي المساحة تشرح بالطريقة اللي تناسبك</h2>
       <div class="story">
         <p>الجواب الصح مش كفاية لو طريقة عرضه لا تناسبك. من إعدادات النوت بوك تقدر تتحكم في طول الإجابة، وتضيف <mark>Custom Instructions</mark> تحدد فيها الدور واللغة ومستوى التبسيط.</p>
@@ -382,7 +501,7 @@
     </section>
 
     <section class="page" id="uses">
-      <span class="bigword">06</span><span class="eyebrow">استخدامات حقيقية</span>
+      <span class="bigword">10</span><span class="eyebrow">استخدامات حقيقية</span>
       <h2>المساحة مش للدراسة وبس</h2>
       <div class="grid">
         <article class="card"><div class="num">ت</div><h3>للتعلم</h3><p>ضع تسجيلات الكورس وملفاته، ارجع لأي معلومة ضاعت، واطلب شرحًا أو مراجعة مبنية على نفس مدرسك ومصادرك.</p></article>
@@ -395,7 +514,7 @@
     </section>
 
     <section class="page" id="studio">
-      <span class="bigword">07</span><span class="eyebrow">Studio</span>
+      <span class="bigword">11</span><span class="eyebrow">Studio</span>
       <h2>المصدر الواحد… مش لازم يفضل في شكل واحد</h2>
       <div class="story">
         <p>هنا تبدأ القوة التوليدية لـNotebookLM. نفس المحاضرة التي رفعتها كمقطع صوتي ممكن تتحول إلى بودكاست، فيديو، Mind Map، Flashcards، Quiz أو Report.</p>
@@ -407,11 +526,15 @@
         <article class="card"><h3>شاهد</h3><p>Explainer أو Short مبني على نفس المصادر.</p></article>
         <article class="card"><h3>تفاعل</h3><p>خريطة، كروت مراجعة أو اختبار قابل للتعديل.</p></article>
       </div>
+      <div class="prompt-box">
+        <header><strong>Prompt يلهمك في الـStudio</strong><button class="copy-prompt" type="button">نسخ</button></header>
+        <p class="prompt-text">استخدم المصادر المحددة فقط. صمّم المخرج لطالب مبتدئ، باللغة العربية البسيطة مع المصطلحات المهمة بالإنجليزي، وركّز على الأمثلة والتطبيق العملي بدل الشرح النظري الطويل.</p>
+      </div>
       <span class="brand-mini">Smarter With AI</span><span class="page-no">09</span>
     </section>
 
     <section class="page" id="audio">
-      <span class="bigword">08</span><span class="eyebrow">Audio Overview</span>
+      <span class="bigword">12</span><span class="eyebrow">Audio Overview</span>
       <h2>حوّل القراءة إلى حاجة تقدر تسمعها</h2>
       <div class="story">
         <p>معاك ورقة علمية ومش فاضي تقرأها؟ أو فيديو طويل وعايز تعرف يستحق وقتك؟ ارفع المصدر، واختر Audio Overview، وحدد هل تريد خلاصة سريعة أم نقاشًا أعمق.</p>
@@ -423,12 +546,15 @@
         <article class="card"><h3>Critique</h3><p>طرح للفكرة مع نقد وتحليل لنقاط القوة والضعف.</p></article>
         <article class="card"><h3>Debate</h3><p>عرض الموضوع من وجهتي نظر مختلفتين بدل تفسير واحد.</p></article>
       </div>
-      <div class="soft" style="margin-top:22px"><p>تقدر تختار اللغة، المصادر، وتضيف توجيهًا مثل: «اعمل ملخصًا بالمصري يركز على الخطوات التي أطبقها فورًا». ومن التطبيق تقدر تسمع في الخلفية وتغيّر السرعة أو تحمل الملف حسب المتاح.</p></div>
+      <div class="prompt-box">
+        <header><strong>جرّبه مع Audio Overview</strong><button class="copy-prompt" type="button">نسخ</button></header>
+        <p class="prompt-text">اعمل الحوار بالمصري، وابدأ بخلاصة سريعة، ثم ركّز على الحاجات اللي أقدر أطبقها فورًا في دراستي أو شغلي. اختم بثلاث خطوات عملية.</p>
+      </div>
       <span class="brand-mini">Smarter With AI</span><span class="page-no">10</span>
     </section>
 
     <section class="page" id="video">
-      <span class="bigword">09</span><span class="eyebrow">Video Overview</span>
+      <span class="bigword">13</span><span class="eyebrow">Video Overview</span>
       <h2>نفس المعرفة… لكن في فيديو</h2>
       <div class="story">
         <p>الـ<mark>Explainer</mark> يحول المصادر إلى عرض شرائح بصري مع صوت يشرح وينتقل بين الأفكار. تختار الشكل المرئي، اللغة، طريقة الإلقاء، والجمهور؛ فتقدر تطلب أسلوبًا أبسط لطفل أو صياغة أكثر جدية لمتخصصين.</p>
@@ -439,11 +565,15 @@
         <article class="card"><div class="num">▶</div><h3>Explainer</h3><p>Slides + Voice لتعليم موضوع أو تلخيص مادة طويلة بشكل متسلسل.</p></article>
         <article class="card"><div class="num">▮</div><h3>Short</h3><p>فيديو عمودي سريع يركز على فكرة واحدة قابلة للمشاركة.</p></article>
       </div>
+      <div class="prompt-box">
+        <header><strong>جرّبه مع Video Overview</strong><button class="copy-prompt" type="button">نسخ</button></header>
+        <p class="prompt-text">اعمل Explainer مناسب لطالب مبتدئ. ابدأ بسؤال يشد الانتباه، اشرح الفكرة في خطوات قصيرة، واستخدم أمثلة بصرية بسيطة. اختم بسؤال مراجعة واحد.</p>
+      </div>
       <span class="brand-mini">Smarter With AI</span><span class="page-no">11</span>
     </section>
 
     <section class="page" id="mindmap">
-      <span class="bigword">10</span><span class="eyebrow">Mind Map</span>
+      <span class="bigword">14</span><span class="eyebrow">Mind Map</span>
       <h2>شوف الصورة الكبيرة… وبعدها انزل للتفاصيل</h2>
       <div class="story">
         <p>بعض المصادر لا تحتاج ملخصًا خطيًا؛ تحتاج خريطة توضح علاقة الأجزاء ببعض. الـMind Map تبني الموضوع على شكل فروع، وكل فرع يفتح لك مستويات أعمق.</p>
@@ -455,7 +585,7 @@
     </section>
 
     <section class="page" id="flashcards">
-      <span class="bigword">11</span><span class="eyebrow">Flashcards</span>
+      <span class="bigword">15</span><span class="eyebrow">Flashcards</span>
       <h2>بدل ما تقرأ المعلومة… حاول تسترجعها</h2>
       <div class="story">
         <p>الكارت له وجه فيه سؤال، وظهر فيه الإجابة. تقرأ السؤال، تحاول تسترجع من ذاكرتك، ثم تقلب الكارت وتقيّم نفسك. دي طريقة تعلم نشط، مفيدة للغات والمصطلحات والمعلومات التي تحتاج تثبيتها.</p>
@@ -470,7 +600,7 @@
     </section>
 
     <section class="page" id="quiz">
-      <span class="bigword">12</span><span class="eyebrow">Quiz & Reports</span>
+      <span class="bigword">16</span><span class="eyebrow">Quiz & Reports</span>
       <h2>اختبر، افهم الخطأ، وعدّل الاختبار</h2>
       <div class="story">
         <p>في الـQuiz تختار عدد الأسئلة، مستوى الصعوبة والمصادر. بعد الإجابة لا تعرف فقط صح أو غلط؛ تشوف لماذا الاختيار صحيح ولماذا باقي الاختيارات غير مناسبة، وتقدر تطلب <mark>Explain</mark> لو التفسير يحتاج توضيحًا أعمق.</p>
@@ -482,7 +612,7 @@
     </section>
 
     <section class="page" id="share">
-      <span class="bigword">13</span><span class="eyebrow">Share</span>
+      <span class="bigword">17</span><span class="eyebrow">Share</span>
       <h2>شارك التجربة… مش مجرد لينك</h2>
       <div class="story">
         <p>تقدر تشارك النوت بوك كلها، أو Artifact واحدًا مثل Flashcards أو Quiz. قبل نسخ الرابط، راجع صلاحية الوصول: لو تركتها <mark>Restricted</mark> لن يفتح مع زميلك حتى لو معه الرابط.</p>
@@ -498,7 +628,7 @@
     </section>
 
     <section class="page" id="limits">
-      <span class="bigword">14</span><span class="eyebrow">استخدم الأداة الصح</span>
+      <span class="bigword">18</span><span class="eyebrow">استخدم الأداة الصح</span>
       <h2>مصادرك أولًا… لكن مش في كل موقف</h2>
       <div class="story">
         <p>NotebookLM ممتاز عندما تريد أن «تعيش داخل مصادرك»: تتعلم كورسًا، تفهم أوراقًا بحثية، تسترجع قرارًا من اجتماعات الشغل، أو تبني تجربة مراجعة من مادة محددة.</p>
@@ -510,7 +640,7 @@
     </section>
 
     <section class="page" id="gemini-notebooks">
-      <span class="bigword">15</span><span class="eyebrow">Notebooks in Gemini • 1:37:47</span>
+      <span class="bigword">19</span><span class="eyebrow">Notebooks in Gemini • 1:37:47</span>
       <h2>خلي مصادر NotebookLM قريبة منك داخل Gemini</h2>
       <div class="story">
         <p>بعد ما بنيت الـNotebook ورتبت مصادرها، مش لازم تبدأ كل مرة من الصفر. تقدر ترجع للنوت بوكس من داخل <mark>Gemini</mark> وتستخدم المعرفة اللي جمعتها وأنت بتكمل شغلك أو مذاكرتك.</p>
@@ -523,7 +653,7 @@
     </section>
 
     <section class="page" id="task">
-      <span class="bigword">16</span><span class="eyebrow">تاسك المحاضرة • 1:43:06</span>
+      <span class="bigword">20</span><span class="eyebrow">تاسك المحاضرة • 1:43:06</span>
       <h2>اعمل Notebook لحاجة حقيقية</h2>
       <p class="lead">اختار موضوعًا يخص دراستك أو شغلك، وابنِ له مساحة تقدر تستخدمها بعد انتهاء التاسك — مش تجربة وهمية تقفلها بعدها.</p>
       <ol class="steps">
@@ -546,6 +676,10 @@
       <h2>مصادرك مش أرشيف.<br>دي <mark>مساحة تشتغل معاك</mark>.</h2>
       <p class="lead">لما تجمع المعرفة الصح، تنظّمها، وتسأل منها بوعي، أنت لا تختصر وقت البحث فقط. أنت تبني نظامًا ترجع له، تتعلم منه، وتحوّل نفس المادة لأكثر من شكل يناسبك ويناسب الناس اللي بتشاركهم المعرفة.</p>
       <div class="quote"><em>افتكر دائمًا</em>NotebookLM يقرّبك من المصدر ويعيد تشكيله، لكنه لا يلغي دورك في الاختيار والمراجعة والحكم على النتيجة.</div>
+      <a class="book-switch" href="https://mahmoudtaru.github.io/Smarter-With-Ai-Round-5-Week-1-Lecture-2-p1/" target="_blank" rel="noopener">
+        <span><small>محتاج ترجع؟</small><strong>افتح الكتيب الأول: تنظيم المحادثات والـProjects</strong></span>
+        <b aria-hidden="true">→</b>
+      </a>
       <p class="signature">خليك دايمًا Smarter With AI ✦</p>
       <span class="brand-mini">Smarter With AI</span><span class="page-no">18</span>
     </section>
@@ -554,6 +688,18 @@
     const bar=document.getElementById('bar');
     const update=()=>{const h=document.documentElement;const max=h.scrollHeight-h.clientHeight;bar.style.width=(max?Math.min(100,h.scrollTop/max*100):0)+'%'};
     document.querySelectorAll('.page-no').forEach((el,index)=>el.textContent=String(index+1).padStart(2,'0'));
+    document.querySelectorAll('.copy-prompt').forEach(button=>button.addEventListener('click',async()=>{
+      const text=button.closest('.prompt-box').querySelector('.prompt-text').textContent.trim();
+      try{
+        await navigator.clipboard.writeText(text);
+        button.textContent='اتنسخ ✓';button.classList.add('copied');
+        setTimeout(()=>{button.textContent='نسخ';button.classList.remove('copied')},1600);
+      }catch(error){
+        const area=document.createElement('textarea');area.value=text;document.body.appendChild(area);area.select();document.execCommand('copy');area.remove();
+        button.textContent='اتنسخ ✓';button.classList.add('copied');
+        setTimeout(()=>{button.textContent='نسخ';button.classList.remove('copied')},1600);
+      }
+    }));
     addEventListener('scroll',update,{passive:true});addEventListener('resize',update);update();
   </script>
 </body>
